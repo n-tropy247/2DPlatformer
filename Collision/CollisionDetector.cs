@@ -5,33 +5,55 @@ using UnnamedGame.Sprites;
 
 namespace UnnamedGame.Collision
 {
+    public struct Collision
+    {
+        public readonly ISprite Sprite1;
+        public readonly ISprite Sprite2;
+        public readonly float TimeToCollide;
+        public Vector2 Direction;
+        private const double Tolerance = 0.01;
+
+        public Collision(ISprite s1, ISprite s2, float time, Vector2 dir)
+        {
+            Sprite1 = s1;
+            Sprite2 = s2;
+            TimeToCollide = time;
+            Direction = dir;
+        }
+
+        public static bool operator ==(Collision c1, Collision c2)
+        {
+            return (c1.Sprite1 == c2.Sprite1 && c1.Sprite2 == c2.Sprite2 && Math.Abs(c1.TimeToCollide - c2.TimeToCollide) < Tolerance &&
+                    c1.Direction == c2.Direction);
+        }
+
+        public static bool operator !=(Collision c1, Collision c2)
+        {
+            return !(c1 == c2);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj != null && this == (Collision)obj;
+        }
+
+        public override int GetHashCode()
+        {
+            return Sprite1.GetHashCode() + Sprite2.GetHashCode() + (int)TimeToCollide;
+        }
+    }
     public static class CollisionDetector
     {
-        public struct Collision
-        {
-            public readonly ISprite Sprite1;
-            public readonly ISprite Sprite2;
-            public readonly float TimeToCollide;
-            public Vector2 Direction;
-
-            public Collision(ISprite s1, ISprite s2, float time, Vector2 dir)
-            {
-                Sprite1 = s1;
-                Sprite2 = s2;
-                TimeToCollide = time;
-                Direction = dir;
-            }
-        }
+        private const double Tolerance = 0.01;
 
         public static void ProcessCollisions(List<ISprite> sprites, GameTime gameTime, Game1 game)
         {
             var collisions = FindCandidates(sprites, gameTime);
             collisions.Sort((a, b) => a.TimeToCollide.CompareTo(b.TimeToCollide));
-            Collision currentCollision;
 
             while (collisions.Count > 0)
             {
-                currentCollision = collisions[0];
+                var currentCollision = collisions[0];
                 collisions.Remove(currentCollision);
                 currentCollision.Sprite1.HandleCollision(currentCollision, game);
                 currentCollision.Sprite2.HandleCollision(new Collision(currentCollision.Sprite2, currentCollision.Sprite1, currentCollision.TimeToCollide, Vector2.Negate(currentCollision.Direction)), game);
@@ -46,11 +68,11 @@ namespace UnnamedGame.Collision
             var collision = new Collision();
             var timeElapsed = (float) gameTime.ElapsedGameTime.TotalSeconds;
 
-            var s1BoundBoxPos = new Vector2(s1.Position.X + s1.BoundBox.X, s1.Position.Y + s1.BoundBox.Y);
-            var s2BoundBoxPos = new Vector2(s2.Position.X + s2.BoundBox.X, s2.Position.Y + s2.BoundBox.Y);
+            var (x, y) = new Vector2(s1.Position.X + s1.BoundBox.X, s1.Position.Y + s1.BoundBox.Y);
+            var (f, f1) = new Vector2(s2.Position.X + s2.BoundBox.X, s2.Position.Y + s2.BoundBox.Y);
 
-            var s1BoundBox = new Rectangle((int) s1BoundBoxPos.X, (int) s1BoundBoxPos.Y, s1.BoundBox.Width, s1.BoundBox.Height);
-            var s2BoundBox = new Rectangle((int) s2BoundBoxPos.X, (int) s2BoundBoxPos.Y, s2.BoundBox.Width, s2.BoundBox.Height);
+            var s1BoundBox = new Rectangle((int) x, (int) y, s1.BoundBox.Width, s1.BoundBox.Height);
+            var s2BoundBox = new Rectangle((int) f, (int) f1, s2.BoundBox.Width, s2.BoundBox.Height);
 
             if (s1BoundBox.Intersects(s2BoundBox)) return new Collision(null, null, -1, Vector2.Zero); //collision already happened
 
@@ -58,21 +80,21 @@ namespace UnnamedGame.Collision
             float leftCollideTime = -1, rightCollideTime = -1;
 
             //if velocities are equal, they'll never collide
-            if (s1.Velocity.X != s2.Velocity.X)
+            if (Math.Abs(s1.Velocity.X - s2.Velocity.X) > Tolerance)
             {
-                leftCollideTime = (s1BoundBoxPos.X - s2BoundBoxPos.X - s2.BoundBox.Width) /
+                leftCollideTime = (x - f - s2.BoundBox.Width) /
                                   (s2.Velocity.X - s1.Velocity.X);
-                rightCollideTime = (s2BoundBoxPos.X - s1BoundBoxPos.X - s1.BoundBox.Width) /
+                rightCollideTime = (f - x - s1.BoundBox.Width) /
                                    (s1.Velocity.X - s2.Velocity.X);
             }
 
             //find time for s1's top or bottom to collide into s2
             float topCollideTime = -1, bottomCollideTime = -1;
-            if (s1.Velocity.Y != s2.Velocity.Y)
+            if (Math.Abs(s1.Velocity.Y - s2.Velocity.Y) > Tolerance)
             {
-                topCollideTime = (s1BoundBoxPos.Y - s2BoundBoxPos.Y - s2.BoundBox.Height) /
+                topCollideTime = (y - f1 - s2.BoundBox.Height) /
                                  (s2.Velocity.Y - s1.Velocity.Y);
-                bottomCollideTime = (s2BoundBoxPos.Y - s1BoundBoxPos.Y - s1.BoundBox.Height) /
+                bottomCollideTime = (f1 - y - s1.BoundBox.Height) /
                                  (s1.Velocity.Y - s2.Velocity.Y);
             }
 
@@ -108,18 +130,18 @@ namespace UnnamedGame.Collision
             var s1Distance = new Vector2(collision.Sprite1.Velocity.X * collision.TimeToCollide, collision.Sprite1.Velocity.Y * collision.TimeToCollide);
             var s2Distance = new Vector2(collision.Sprite2.Velocity.X * collision.TimeToCollide, collision.Sprite2.Velocity.Y * collision.TimeToCollide);
 
-            var s1Swept = new Vector2(collision.Sprite1.Position.X + collision.Sprite1.BoundBox.X, collision.Sprite1.Position.Y + collision.Sprite1.BoundBox.Y) + s1Distance;
-            var s2Swept = new Vector2(collision.Sprite2.Position.X + collision.Sprite2.BoundBox.X, collision.Sprite2.Position.Y + collision.Sprite2.BoundBox.Y) + s2Distance;
+            var (x, y) = new Vector2(collision.Sprite1.Position.X + collision.Sprite1.BoundBox.X, collision.Sprite1.Position.Y + collision.Sprite1.BoundBox.Y) + s1Distance;
+            var (f, f1) = new Vector2(collision.Sprite2.Position.X + collision.Sprite2.BoundBox.X, collision.Sprite2.Position.Y + collision.Sprite2.BoundBox.Y) + s2Distance;
 
             return (collision.Direction == s1MovementDir || collision.Sprite2.Velocity != Vector2.Zero)
                    && (((collision.Direction == new Vector2(-1, 0) ||
                          collision.Direction == new Vector2(1, 0)) //collision is left/right
-                        && (s1Swept.Y < s2Swept.Y + collision.Sprite2.BoundBox.Height && s1Swept.Y >= s2Swept.Y
-                            || s2Swept.Y >= s1Swept.Y && s2Swept.Y < s1Swept.Y + collision.Sprite1.BoundBox.Height)) //and swept shapes overlap
+                        && (y < f1 + collision.Sprite2.BoundBox.Height && y >= f1
+                            || f1 >= y && f1 < y + collision.Sprite1.BoundBox.Height)) //and swept shapes overlap
                        || ((collision.Direction == new Vector2(0, -1) ||
                             collision.Direction == new Vector2(0, 1)) //collision is up/down
-                           && s1Swept.X < s2Swept.X + collision.Sprite2.BoundBox.Width && s1Swept.X >= s2Swept.X
-                           || s2Swept.X >= s1Swept.X && s2Swept.X < s1Swept.X + collision.Sprite1.BoundBox.Width)); //and swept shapes overlap
+                           && x < f + collision.Sprite2.BoundBox.Width && x >= f
+                           || f >= x && f < x + collision.Sprite1.BoundBox.Width)); //and swept shapes overlap
 
         }
 
@@ -128,7 +150,6 @@ namespace UnnamedGame.Collision
             var collisions = new List<Collision>();
             sprites.Sort((s1, s2) => s1.BoundBox.X.CompareTo(s2.BoundBox.X));
             var activeList = new List<ISprite>();
-            Collision currentCollision;
 
             foreach (var sprite in sprites)
             {
@@ -141,7 +162,7 @@ namespace UnnamedGame.Collision
                     }
                     else
                     {
-                        currentCollision = CheckFutureCollision(sprite, active, gameTime);
+                        var currentCollision = CheckFutureCollision(sprite, active, gameTime);
                         if (currentCollision.Sprite1 != null)
                         {
                             collisions.Add(currentCollision);

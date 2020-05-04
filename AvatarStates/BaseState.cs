@@ -1,29 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using UnnamedGame.Collision;
+﻿using Microsoft.Xna.Framework;
 using UnnamedGame.Entities;
-using UnnamedGame.Factories;
-using UnnamedGame.Sprites;
 
 namespace UnnamedGame.AvatarStates
 {
     public abstract class BaseState
     {
-        public AvatarEntity Avatar { get; }
+        protected AvatarEntity Avatar { get; }
 
-        public BaseState(AvatarEntity avatar)
-        {
-            Avatar = avatar;
-            LoadSprite();
-        }
-
-        protected virtual void LoadSprite()
-        {
-        }
+        protected BaseState(AvatarEntity avatar) => Avatar = avatar;
 
         public virtual void Update(GameTime gameTime)
         {
@@ -53,7 +37,7 @@ namespace UnnamedGame.AvatarStates
         {
         }
 
-        public virtual void HandleCollision(CollisionDetector.Collision collision, Game1 game)
+        public void HandleCollision(Collision.Collision collision)
         {
             if (collision.Direction == new Vector2(0, 1) && !Avatar.OnGround) //down
             {
@@ -63,12 +47,20 @@ namespace UnnamedGame.AvatarStates
                     Avatar.Velocity = new Vector2(Avatar.Velocity.X, 0);
                 }
             }
+            else if (collision.Direction == new Vector2(1, 0) && Avatar.Velocity.X > 0) //right
+            {
+                Avatar.Velocity = new Vector2(0, Avatar.Velocity.Y);
+            }
+            else if (collision.Direction == new Vector2(-1, 0) && Avatar.Velocity.X < 0) //left
+            {
+                Avatar.Velocity = new Vector2(0, Avatar.Velocity.Y);
+            }
 
             if (Avatar.Velocity.Y > 0 && Avatar.OnGround) Avatar.OnGround = false;
         }
 
         protected void TransitionJumpLeft(bool moving) => Avatar.State = new JumpLeftState(Avatar, moving);
-        
+
         protected void TransitionJumpRight(bool moving) => Avatar.State = new JumpRightState(Avatar, moving);
 
         protected void TransitionMoveLeft() => Avatar.State = new MoveLeftState(Avatar);

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using UnnamedGame.Collision;
 
 namespace UnnamedGame.Sprites
 {
@@ -13,6 +12,6 @@ namespace UnnamedGame.Sprites
 
         void Draw(SpriteBatch spriteBatch);
         void Update(GameTime gameTime);
-        void HandleCollision(CollisionDetector.Collision collision, Game1 game);
+        void HandleCollision(Collision.Collision collision, Game1 game);
     }
 }

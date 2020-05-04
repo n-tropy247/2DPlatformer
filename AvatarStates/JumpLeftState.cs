@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using UnnamedGame.Entities;
 using UnnamedGame.Factories;
 
 namespace UnnamedGame.AvatarStates
 {
-    class JumpLeftState : BaseState
+    internal class JumpLeftState : BaseState
     {
         private bool _continueJump, _moveLeft;
+
         public JumpLeftState(AvatarEntity avatar, bool moving) : base(avatar)
         {
             _moveLeft = moving;
             _continueJump = Avatar.OnGround;
             Avatar.OnGround = false;
+            LoadSprite();
         }
 
-        protected override void LoadSprite() => Avatar.Sprite =
-            AvatarFactory.Instance.CreateJumpLeftSprite(Avatar.Position, Avatar.Velocity, Avatar.Acceleration, Avatar.OnGround);
+        private void LoadSprite() => Avatar.Sprite =
+            AvatarFactory.Instance.CreateJumpLeftSprite(Avatar.Position, Avatar.Velocity, Avatar.Acceleration,
+                Avatar.OnGround);
 
         public override void JumpReleased() => _continueJump = false;
 
@@ -41,21 +39,19 @@ namespace UnnamedGame.AvatarStates
         public override void Update(GameTime gameTime)
         {
             Avatar.Velocity = new Vector2(MathHelper.Clamp(Avatar.Velocity.X, -500, 0), Avatar.Velocity.Y);
-            if (Avatar.OnGround)
+            if (!Avatar.OnGround) return; //if still airborn, just continue
+            if (_continueJump)
             {
-                if (_continueJump)
-                {
-                    LoadSprite();
-                    Avatar.OnGround = false;
-                }
-                else if (_moveLeft)
-                {
-                    TransitionMoveLeft();
-                }
-                else
-                {
-                    TransitionFaceLeft();
-                }
+                LoadSprite();
+                Avatar.OnGround = false;
+            }
+            else if (_moveLeft)
+            {
+                TransitionMoveLeft();
+            }
+            else
+            {
+                TransitionFaceLeft();
             }
         }
     }

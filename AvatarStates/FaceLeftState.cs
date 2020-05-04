@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using UnnamedGame.Entities;
 using UnnamedGame.Factories;
 
 namespace UnnamedGame.AvatarStates
 {
-    class FaceLeftState : BaseState
+    internal class FaceLeftState : BaseState
     {
-        public FaceLeftState(AvatarEntity avatar) : base(avatar) => Avatar.Acceleration = new Vector2(1500, Avatar.Acceleration.Y);
+        public FaceLeftState(AvatarEntity avatar) : base(avatar)
+        {
+            Avatar.Acceleration = new Vector2(1500, Avatar.Acceleration.Y);
+            LoadSprite();
+        }
 
-        protected override void LoadSprite() => Avatar.Sprite =
+        private void LoadSprite() => Avatar.Sprite =
             AvatarFactory.Instance.CreateFacingLeftSprite(Avatar.Position, Avatar.Velocity, Avatar.Acceleration);
 
         public override void Jump() => TransitionJumpLeft(false);

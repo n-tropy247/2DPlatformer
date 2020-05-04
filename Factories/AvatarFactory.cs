@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using UnnamedGame.AvatarStates;
-using UnnamedGame.Entities;
 using UnnamedGame.Sprites;
 
 namespace UnnamedGame.Factories
 {
-    class AvatarFactory : Factory<AvatarFactory>
+    internal class AvatarFactory : Factory<AvatarFactory>
     {
-        private const int AvatarWidth = 128, AvatarHeight = 64;
+        private const int AvatarWidth = 64, AvatarHeight = 128;
         private static readonly Vector2 BaseAcceleration = new Vector2(0, World.World.Gravity);
+
         public void LoadSheet(ContentManager mgr)
         {
             Atlas = mgr.Load<Texture2D>("avatar");
@@ -24,7 +18,7 @@ namespace UnnamedGame.Factories
         private static void AvatarBoundBox(ISprite sprite)
         {
             if (sprite != null)
-                sprite.BoundBox = new Rectangle(new Point(0, 0), new Point(AvatarHeight, AvatarWidth));
+                sprite.BoundBox = new Rectangle(new Point(0, 0), new Point(AvatarWidth, AvatarHeight));
         }
 
         public ISprite CreateFacingLeftSprite(Vector2 position, Vector2 velocity, Vector2 acceleration)
@@ -49,7 +43,8 @@ namespace UnnamedGame.Factories
             var adjustedVelocity = velocity;
             if (grounded)
                 adjustedVelocity = new Vector2(velocity.X, -500);
-            ISprite sprite = new SpriteMovingNonAnimated(Atlas, position, adjustedVelocity, adjustedAcceleration, 2, 1, 0);
+            ISprite sprite =
+                new SpriteMovingNonAnimated(Atlas, position, adjustedVelocity, adjustedAcceleration, 2, 1, 0);
             AvatarBoundBox(sprite);
             return sprite;
         }
@@ -60,7 +55,8 @@ namespace UnnamedGame.Factories
             var adjustedVelocity = velocity;
             if (grounded)
                 adjustedVelocity = new Vector2(velocity.X, -500);
-            ISprite sprite = new SpriteMovingNonAnimated(Atlas, position, adjustedVelocity, adjustedAcceleration, 2, 1, 1);
+            ISprite sprite =
+                new SpriteMovingNonAnimated(Atlas, position, adjustedVelocity, adjustedAcceleration, 2, 1, 1);
             AvatarBoundBox(sprite);
             return sprite;
         }

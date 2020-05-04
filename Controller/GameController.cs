@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnnamedGame.Controller.Commands;
-using Microsoft.Xna.Framework;
+﻿using UnnamedGame.Controller.Commands;
 using Microsoft.Xna.Framework.Input;
 
 namespace UnnamedGame.Controller
 {
-    class GameController
+    internal class GameController
     {
-        private readonly KeyboardController keyboard;
+        private readonly KeyboardController _keyboard;
 
         public GameController(Game1 game)
         {
-            keyboard = new KeyboardController();
+            _keyboard = new KeyboardController();
 
             var quit = new QuitCommand(game);
             BindCommand(quit, null, Keys.Q);
@@ -33,12 +27,12 @@ namespace UnnamedGame.Controller
 
         public void Update()
         {
-            keyboard.Update();
+            _keyboard.Update();
         }
 
-        public void BindCommand(ICommand pressCommand, ICommand releaseCommand, Keys key)
+        private void BindCommand(ICommand pressCommand, ICommand releaseCommand, Keys key)
         {
-            keyboard.BindKey(pressCommand, releaseCommand, key);
+            _keyboard.BindKey(pressCommand, releaseCommand, key);
         }
     }
 }

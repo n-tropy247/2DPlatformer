@@ -4,13 +4,13 @@ using UnnamedGame.Controller.Commands;
 
 namespace UnnamedGame.Controller
 {
-    abstract class Controller<T, TS>
+    internal abstract class Controller<T, TS>
     {
-        public T PrevState { get; set; }
+        protected T PrevState { get; set; }
         private Dictionary<TS, ICommand> Bindings { get; }
         private Dictionary<TS, ICommand> ReleaseBindings { get; }
 
-        public Controller()
+        protected Controller()
         {
             Bindings = new Dictionary<TS, ICommand>();
             ReleaseBindings = new Dictionary<TS, ICommand>();
@@ -20,7 +20,7 @@ namespace UnnamedGame.Controller
         {
             var currentState = CurrentState();
 
-            foreach (var button in Bindings.Keys.Where(button => 
+            foreach (var button in Bindings.Keys.Where(button =>
                 IsButtonDown(currentState, button) && IsButtonUp(PrevState, button)))
                 Bindings[button].Execute();
             foreach (var button in ReleaseBindings.Keys.Where(button =>
@@ -38,8 +38,8 @@ namespace UnnamedGame.Controller
             }
         }
 
-        public abstract T CurrentState();
-        public abstract bool IsButtonDown(T state, TS button);
-        public abstract bool IsButtonUp(T state, TS button);
+        protected abstract T CurrentState();
+        protected abstract bool IsButtonDown(T state, TS button);
+        protected abstract bool IsButtonUp(T state, TS button);
     }
 }

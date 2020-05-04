@@ -1,11 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnnamedGame.Collision;
 using UnnamedGame.Sprites;
 
 namespace UnnamedGame.Entities
@@ -54,7 +48,7 @@ namespace UnnamedGame.Entities
             }
         }
 
-        public BaseEntity(Vector2 position)
+        protected BaseEntity(Vector2 position)
         {
             Position = position;
         }
@@ -69,7 +63,7 @@ namespace UnnamedGame.Entities
             Sprite?.Update(gameTime);
         }
 
-        public virtual void HandleCollision(CollisionDetector.Collision collision, Game1 game)
+        public virtual void HandleCollision(Collision.Collision collision, Game1 game)
         {
         }
     }

@@ -28,6 +28,7 @@ namespace UnnamedGame
             {
                 graphics.ApplyChanges();
             }
+
             Content.RootDirectory = "Content";
         }
 

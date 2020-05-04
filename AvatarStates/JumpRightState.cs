@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using UnnamedGame.Entities;
 using UnnamedGame.Factories;
 
 namespace UnnamedGame.AvatarStates
 {
-    class JumpRightState : BaseState
+    internal class JumpRightState : BaseState
     {
         private bool _continueJump, _moveRight;
+
         public JumpRightState(AvatarEntity avatar, bool moving) : base(avatar)
         {
             _moveRight = moving;
             _continueJump = Avatar.OnGround;
             Avatar.OnGround = false;
+            LoadSprite();
         }
 
-        protected override void LoadSprite() => Avatar.Sprite =
-            AvatarFactory.Instance.CreateJumpRightSprite(Avatar.Position, Avatar.Velocity, Avatar.Acceleration, Avatar.OnGround);
+        private void LoadSprite() => Avatar.Sprite =
+            AvatarFactory.Instance.CreateJumpRightSprite(Avatar.Position, Avatar.Velocity, Avatar.Acceleration,
+                Avatar.OnGround);
 
         public override void JumpReleased() => _continueJump = false;
 

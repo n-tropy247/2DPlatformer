@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using UnnamedGame.AvatarStates;
-using UnnamedGame.Collision;
 
 namespace UnnamedGame.Entities
 {
@@ -13,6 +7,7 @@ namespace UnnamedGame.Entities
     {
         public BaseState State { get; set; }
         public bool OnGround { get; set; }
+
         public AvatarEntity(Vector2 position) : base(position)
         {
             OnGround = false;
@@ -57,9 +52,9 @@ namespace UnnamedGame.Entities
             State.RightReleased();
         }
 
-        public override void HandleCollision(CollisionDetector.Collision collision, Game1 game)
+        public override void HandleCollision(Collision.Collision collision, Game1 game)
         {
-            State.HandleCollision(collision, game);
+            State.HandleCollision(collision);
         }
     }
 }

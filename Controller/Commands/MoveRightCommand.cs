@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-
-namespace UnnamedGame.Controller.Commands
+﻿namespace UnnamedGame.Controller.Commands
 {
-    class MoveRightCommand : BaseCommand
+    internal class MoveRightCommand : BaseCommand
     {
         public MoveRightCommand(Game1 game) : base(game)
         {
