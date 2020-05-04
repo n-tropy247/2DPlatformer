@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using UnnamedGame.Controller;
+using UnnamedGame.Factories;
+using UnnamedGame.World;
 
 namespace UnnamedGame
 {
@@ -9,26 +11,24 @@ namespace UnnamedGame
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public World.World World { get; private set; }
+
+        public static Texture2D Bound { get; private set; }
+
+        private SpriteBatch _spriteBatch;
+        private GameController _controller;
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            using (var graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = 1600,
+                PreferredBackBufferHeight = 896
+            })
+            {
+                graphics.ApplyChanges();
+            }
             Content.RootDirectory = "Content";
-        }
-
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
-
-            base.Initialize();
         }
 
         /// <summary>
@@ -38,18 +38,12 @@ namespace UnnamedGame
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
-        }
-
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Bound = new Texture2D(GraphicsDevice, 1, 1);
+            _controller = new GameController(this);
+            TileFactory.Instance.LoadSheet(Content);
+            AvatarFactory.Instance.LoadSheet(Content);
+            World = LevelParser.Parse(this, "./Content/level.json");
         }
 
         /// <summary>
@@ -59,11 +53,8 @@ namespace UnnamedGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
-
+            World.Update(gameTime);
+            _controller.Update();
             base.Update(gameTime);
         }
 
@@ -75,7 +66,7 @@ namespace UnnamedGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            World.Draw(_spriteBatch);
 
             base.Draw(gameTime);
         }

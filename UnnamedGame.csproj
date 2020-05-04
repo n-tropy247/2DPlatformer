@@ -41,6 +41,32 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AvatarStates\BaseState.cs" />
+    <Compile Include="AvatarStates\FaceLeftState.cs" />
+    <Compile Include="AvatarStates\JumpLeftState.cs" />
+    <Compile Include="AvatarStates\MoveLeftState.cs" />
+    <Compile Include="AvatarStates\JumpRightState.cs" />
+    <Compile Include="AvatarStates\MoveRightState.cs" />
+    <Compile Include="AvatarStates\FaceRightState.cs" />
+    <Compile Include="Collision\CollisionDetector.cs" />
+    <Compile Include="Controller\Commands\BaseCommand.cs" />
+    <Compile Include="Controller\Commands\ICommand.cs" />
+    <Compile Include="Controller\Commands\QuitCommand.cs" />
+    <Compile Include="Controller\Commands\ReleaseRightCommand.cs" />
+    <Compile Include="Controller\Commands\ReleaseLeftCommand.cs" />
+    <Compile Include="Controller\Commands\ReleaseJumpCommand.cs" />
+    <Compile Include="Controller\Commands\JumpCommand.cs" />
+    <Compile Include="Controller\Commands\MoveRightCommand.cs" />
+    <Compile Include="Controller\Commands\MoveLeftCommand.cs" />
+    <Compile Include="Controller\Controller.cs" />
+    <Compile Include="Controller\GameController.cs" />
+    <Compile Include="Controller\KeyboardController.cs" />
+    <Compile Include="Entities\AvatarEntity.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\TileEntity.cs" />
+    <Compile Include="Factories\Factory.cs" />
+    <Compile Include="Factories\AvatarFactory.cs" />
+    <Compile Include="Factories\TileFactory.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,10 +76,16 @@
     <Compile Include="Sprites\SpriteNonMovingNonAnimated.cs" />
     <Compile Include="Sprites\SpriteNonMovingAnimated.cs" />
     <Compile Include="Sprites\SpriteMovingAnimated.cs" />
+    <Compile Include="World\LevelParser.cs" />
+    <Compile Include="World\World.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -64,6 +96,7 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

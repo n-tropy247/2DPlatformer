@@ -1,0 +1,19 @@
+{
+  "Entities": [
+	{
+	  "name": "GroundTile",
+	  "instances": [
+		{
+		  "start": {
+			"x": 10,
+			"y": 800
+		  },
+		  "end": {
+			"x": 1500,
+			"y": 800
+		  }
+		}
+	  ]
+	}
+  ]
+}
