@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using UnnamedGame.Sprites;
 
 namespace UnnamedGame.Collision
 {
-    public class CollisionDetector
+    public static class CollisionDetector
     {
-        private const float MaxDistance = 200;
-
         public struct Collision
         {
             public readonly ISprite Sprite1;
@@ -109,6 +103,7 @@ namespace UnnamedGame.Collision
             //take ABS to prevent accidental sign switch on s1's velocity
             var s1MovementDir = collision.Sprite1.Velocity *
                                 new Vector2(Math.Abs(collision.Direction.X), Math.Abs(collision.Direction.Y));
+            s1MovementDir.Normalize();
 
             var s1Distance = new Vector2(collision.Sprite1.Velocity.X * collision.TimeToCollide, collision.Sprite1.Velocity.Y * collision.TimeToCollide);
             var s2Distance = new Vector2(collision.Sprite2.Velocity.X * collision.TimeToCollide, collision.Sprite2.Velocity.Y * collision.TimeToCollide);

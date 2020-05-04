@@ -21,7 +21,9 @@ namespace UnnamedGame.AvatarStates
             LoadSprite();
         }
 
-        protected abstract void LoadSprite();
+        protected virtual void LoadSprite()
+        {
+        }
 
         public virtual void Update(GameTime gameTime)
         {

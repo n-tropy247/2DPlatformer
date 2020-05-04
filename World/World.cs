@@ -10,7 +10,7 @@ namespace UnnamedGame.World
 {
     public class World : IDisposable
     {
-        public const int Gravity = 2000;
+        public const int Gravity = 1000;
 
         public AvatarEntity Avatar { get; }
 
