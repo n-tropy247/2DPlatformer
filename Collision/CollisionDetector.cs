@@ -44,7 +44,7 @@ namespace UnnamedGame.Collision
     }
     public static class CollisionDetector
     {
-        private const double Tolerance = 0.01;
+        private const double Tolerance = 0.1;
 
         public static void ProcessCollisions(List<ISprite> sprites, GameTime gameTime, Game1 game)
         {
@@ -163,7 +163,7 @@ namespace UnnamedGame.Collision
                     else
                     {
                         var currentCollision = CheckFutureCollision(sprite, active, gameTime);
-                        if (currentCollision.Sprite1 != null)
+                        if (currentCollision.Sprite1 != null && currentCollision.TimeToCollide >= 0)
                         {
                             collisions.Add(currentCollision);
                         }

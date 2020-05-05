@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using UnnamedGame.Entities;
 
 namespace UnnamedGame.AvatarStates
@@ -47,13 +48,22 @@ namespace UnnamedGame.AvatarStates
                     Avatar.Velocity = new Vector2(Avatar.Velocity.X, 0);
                 }
             }
-            else if (collision.Direction == new Vector2(1, 0) && Avatar.Velocity.X > 0) //right
+            else if (collision.Direction == new Vector2(1, 0)) //right
             {
-                Avatar.Velocity = new Vector2(0, Avatar.Velocity.Y);
+                if (Avatar.Velocity.X >= 0)
+                    Avatar.Velocity = new Vector2(0, Avatar.Velocity.Y);
+                else
+                    Avatar.Position += new Vector2(0, 1);
             }
-            else if (collision.Direction == new Vector2(-1, 0) && Avatar.Velocity.X < 0) //left
+            else if (collision.Direction == new Vector2(-1, 0)) //left
             {
-                Avatar.Velocity = new Vector2(0, Avatar.Velocity.Y);
+                if (Avatar.Velocity.X <= 0)
+                    Avatar.Velocity = new Vector2(0, Avatar.Velocity.Y);
+                else
+                    Avatar.Position += new Vector2(0, 1);
+            }
+            else if (collision.Direction == new Vector2(0, -1))
+            {
             }
 
             if (Avatar.Velocity.Y > 0 && Avatar.OnGround) Avatar.OnGround = false;
