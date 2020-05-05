@@ -44,6 +44,13 @@ namespace UnnamedGame.Collision
     }
     public static class CollisionDetector
     {
+        public enum EntityType
+        {
+            Avatar,
+            Default,
+            Tile
+        }
+
         private const double Tolerance = 0.1;
 
         public static void ProcessCollisions(List<ISprite> sprites, GameTime gameTime, Game1 game)

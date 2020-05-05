@@ -1,0 +1,1 @@
+avatar placeholder from minipix

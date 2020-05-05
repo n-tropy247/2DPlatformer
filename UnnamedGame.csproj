@@ -51,6 +51,7 @@
     <Compile Include="Collision\CollisionDetector.cs" />
     <Compile Include="Controller\Commands\BaseCommand.cs" />
     <Compile Include="Controller\Commands\ICommand.cs" />
+    <Compile Include="Controller\Commands\DrawBoundBoxCommand.cs" />
     <Compile Include="Controller\Commands\QuitCommand.cs" />
     <Compile Include="Controller\Commands\ReleaseRightCommand.cs" />
     <Compile Include="Controller\Commands\ReleaseLeftCommand.cs" />
@@ -64,6 +65,8 @@
     <Compile Include="Entities\AvatarEntity.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\TileEntity.cs" />
+    <Compile Include="Entities\StoneEntity.cs" />
+    <Compile Include="Entities\DirtEntity.cs" />
     <Compile Include="Factories\Factory.cs" />
     <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\TileFactory.cs" />

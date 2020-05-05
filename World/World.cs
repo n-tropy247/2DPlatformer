@@ -9,6 +9,8 @@ namespace UnnamedGame.World
 {
     public class World
     {
+        public static bool DrawBoundBox { get; private set; }
+
         public const int Gravity = 1000;
 
         private AvatarEntity Avatar { get; }
@@ -39,6 +41,8 @@ namespace UnnamedGame.World
             CollisionDetector.ProcessCollisions(_sprites, gameTime, _game);
             _sprites.ForEach(sprite => sprite.Update(gameTime));
         }
+
+        public static void ToggleDrawBoundBox() => DrawBoundBox = !DrawBoundBox;
 
         public void AddSprite(ISprite sprite) => _sprites.Add(sprite);
         public void RemoveSprite(ISprite sprite) => _sprites.Remove(sprite);

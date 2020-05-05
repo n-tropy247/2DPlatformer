@@ -23,6 +23,9 @@ namespace UnnamedGame.Controller
             BindCommand(moveLeft, releaseLeft, Keys.A);
             BindCommand(moveRight, releaseRight, Keys.D);
             BindCommand(jump, releaseJump, Keys.W);
+
+            var boundbox = new DrawBoundBoxCommand(game);
+            BindCommand(boundbox, null, Keys.C);
         }
 
         public void Update()
