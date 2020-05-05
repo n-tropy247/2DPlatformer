@@ -15,7 +15,7 @@ namespace UnnamedGame.AvatarStates
         private void LoadSprite() => Avatar.Sprite =
             AvatarFactory.Instance.CreateFacingRightSprite(Avatar.Position, Avatar.Velocity, Avatar.Acceleration);
 
-        public override void Jump() => TransitionJumpRight(false);
+        public override void Jump() => TransitionJumpRight(false, true);
 
         public override void MoveLeft() => TransitionMoveLeft();
 

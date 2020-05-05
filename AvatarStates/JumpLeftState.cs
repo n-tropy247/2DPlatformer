@@ -6,12 +6,12 @@ namespace UnnamedGame.AvatarStates
 {
     internal class JumpLeftState : BaseState
     {
-        private bool _continueJump, _moveLeft;
+        private bool _continueJump, _moveLeft, _moveRightQueued;
 
-        public JumpLeftState(AvatarEntity avatar, bool moving) : base(avatar)
+        public JumpLeftState(AvatarEntity avatar, bool moving, bool continueJump) : base(avatar)
         {
             _moveLeft = moving;
-            _continueJump = Avatar.OnGround;
+            _continueJump = continueJump;
             Avatar.OnGround = false;
             LoadSprite();
         }
@@ -22,7 +22,13 @@ namespace UnnamedGame.AvatarStates
 
         public override void JumpReleased() => _continueJump = false;
 
-        public override void MoveRight() => TransitionJumpRight(true);
+        public override void MoveRight()
+        {
+            if (!_moveLeft)
+                TransitionJumpRight(true, _continueJump);
+            else
+                _moveRightQueued = true;
+        }
 
         public override void MoveLeft()
         {
@@ -32,8 +38,11 @@ namespace UnnamedGame.AvatarStates
 
         public override void LeftReleased()
         {
-            _moveLeft = false;
             Avatar.Acceleration = new Vector2(1500, Avatar.Acceleration.Y);
+            if (_moveRightQueued)
+                TransitionJumpRight(true, _continueJump);
+            else
+                _moveLeft = false;
         }
 
         public override void Update(GameTime gameTime)

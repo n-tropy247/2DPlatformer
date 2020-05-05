@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using UnnamedGame.AvatarStates;
+using UnnamedGame.Collision;
 
 namespace UnnamedGame.Entities
 {
@@ -10,6 +11,7 @@ namespace UnnamedGame.Entities
 
         public AvatarEntity(Vector2 position) : base(position)
         {
+            EntityType = CollisionDetector.EntityType.Avatar;
             OnGround = false;
             State = new FaceRightState(this);
             State.TransitionFaceRight();
@@ -54,7 +56,8 @@ namespace UnnamedGame.Entities
 
         public override void HandleCollision(Collision.Collision collision, Game1 game)
         {
-            State.HandleCollision(collision);
+            State?.HandleCollision(collision);
+            Sprite?.HandleCollision(collision, game);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using UnnamedGame.Collision;
 using UnnamedGame.Sprites;
 
 namespace UnnamedGame.Entities
@@ -8,6 +9,14 @@ namespace UnnamedGame.Entities
     {
         public ISprite Sprite { get; set; }
         private Vector2 _position;
+        public CollisionDetector.EntityType EntityType
+        {
+            get => Sprite?.EntityType ?? CollisionDetector.EntityType.Default;
+            set
+            {
+                if (Sprite != null) Sprite.EntityType = value;
+            }
+        }
 
         public Vector2 Position
         {

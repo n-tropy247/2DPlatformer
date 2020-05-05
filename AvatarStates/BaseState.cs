@@ -68,9 +68,9 @@ namespace UnnamedGame.AvatarStates
             if (Avatar.Velocity.Y > 0 && Avatar.OnGround) Avatar.OnGround = false;
         }
 
-        protected void TransitionJumpLeft(bool moving) => Avatar.State = new JumpLeftState(Avatar, moving);
+        protected void TransitionJumpLeft(bool moving, bool jumping) => Avatar.State = new JumpLeftState(Avatar, moving, jumping);
 
-        protected void TransitionJumpRight(bool moving) => Avatar.State = new JumpRightState(Avatar, moving);
+        protected void TransitionJumpRight(bool moving, bool jumping) => Avatar.State = new JumpRightState(Avatar, moving, jumping);
 
         protected void TransitionMoveLeft() => Avatar.State = new MoveLeftState(Avatar);
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using UnnamedGame.Collision;
 
 namespace UnnamedGame.Sprites
 {
@@ -10,6 +11,9 @@ namespace UnnamedGame.Sprites
         public Vector2 Acceleration { get; set; }
         public Rectangle BoundBox { get; set; }
 
+        public CollisionDetector.EntityType EntityType { get; set; }
+
+        private bool _collided;
 
         private const int FrameTime = 100;
 
@@ -54,7 +58,9 @@ namespace UnnamedGame.Sprites
             _destRectangle.Y = (int) Position.Y;
 
             spriteBatch.Draw(_texture, _destRectangle, _srcRectangle, Color.White);
-            DrawBoundBox(spriteBatch);
+
+            if (World.World.DrawBoundBox)
+                DrawBoundBox(spriteBatch);
         }
 
         private void DrawBoundBox(SpriteBatch spriteBatch)
@@ -64,10 +70,15 @@ namespace UnnamedGame.Sprites
 
             _bound.SetData(new[] {Color.White});
 
-            spriteBatch.Draw(_bound, new Rectangle(boundbox.Left, boundbox.Top, 4, boundbox.Height), Color.Blue);
-            spriteBatch.Draw(_bound, new Rectangle(boundbox.Left, boundbox.Top, boundbox.Width, 4), Color.Blue);
-            spriteBatch.Draw(_bound, new Rectangle(boundbox.Left, boundbox.Bottom - 4, boundbox.Width, 4), Color.Blue);
-            spriteBatch.Draw(_bound, new Rectangle(boundbox.Right - 4, boundbox.Top, 4, boundbox.Height), Color.Blue);
+            var border = Color.Blue;
+            if (_collided) border = EntityType is CollisionDetector.EntityType.Tile ? Color.Beige : Color.Coral;
+
+            spriteBatch.Draw(_bound, new Rectangle(boundbox.Left, boundbox.Top, 4, boundbox.Height), border);
+            spriteBatch.Draw(_bound, new Rectangle(boundbox.Left, boundbox.Top, boundbox.Width, 4), border);
+            spriteBatch.Draw(_bound, new Rectangle(boundbox.Left, boundbox.Bottom - 4, boundbox.Width, 4), border);
+            spriteBatch.Draw(_bound, new Rectangle(boundbox.Right - 4, boundbox.Top, 4, boundbox.Height), border);
+
+            _collided = false;
         }
 
         public void Update(GameTime gameTime)
@@ -89,6 +100,7 @@ namespace UnnamedGame.Sprites
 
         public void HandleCollision(Collision.Collision collision, Game1 game)
         {
+            _collided = true;
         }
     }
 }
