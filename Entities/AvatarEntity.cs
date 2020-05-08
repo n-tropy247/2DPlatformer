@@ -35,7 +35,7 @@ namespace UnnamedGame.Entities
 
         public void Jump()
         {
-            if (OnGround)
+            if (OnGround || State is JumpLeftState || State is JumpRightState)
                 State.Jump();
         }
 
