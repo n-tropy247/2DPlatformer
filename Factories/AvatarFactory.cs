@@ -12,7 +12,7 @@ namespace UnnamedGame.Factories
 
         public void LoadSheet(ContentManager mgr)
         {
-            Atlas = mgr.Load<Texture2D>("avatar");
+            Atlas = mgr.Load<Texture2D>("avatar2");
         }
 
         private static void AvatarBoundBox(ISprite sprite)
@@ -24,7 +24,7 @@ namespace UnnamedGame.Factories
         public ISprite CreateFacingLeftSprite(Vector2 position, Vector2 velocity, Vector2 acceleration)
         {
             var adjustedAcceleration = acceleration + BaseAcceleration;
-            ISprite sprite = new SpriteMovingNonAnimated(Atlas, position, velocity, adjustedAcceleration, 1, 1, 0);
+            ISprite sprite = new SpriteMovingNonAnimated(Atlas, position, velocity, adjustedAcceleration, 2, 2, 2);
             AvatarBoundBox(sprite);
             return sprite;
         }
@@ -32,7 +32,7 @@ namespace UnnamedGame.Factories
         public ISprite CreateFacingRightSprite(Vector2 position, Vector2 velocity, Vector2 acceleration)
         {
             var adjustedAcceleration = acceleration + BaseAcceleration;
-            ISprite sprite = new SpriteMovingNonAnimated(Atlas, position, velocity, adjustedAcceleration, 1, 1, 0);
+            ISprite sprite = new SpriteMovingNonAnimated(Atlas, position, velocity, adjustedAcceleration, 2, 2, 0);
             AvatarBoundBox(sprite);
             return sprite;
         }
@@ -44,7 +44,7 @@ namespace UnnamedGame.Factories
             if (grounded)
                 adjustedVelocity = new Vector2(velocity.X, -500);
             ISprite sprite =
-                new SpriteMovingNonAnimated(Atlas, position, adjustedVelocity, adjustedAcceleration, 1, 1, 0);
+                new SpriteMovingNonAnimated(Atlas, position, adjustedVelocity, adjustedAcceleration, 2, 2 ,3);
             AvatarBoundBox(sprite);
             return sprite;
         }
@@ -56,7 +56,7 @@ namespace UnnamedGame.Factories
             if (grounded)
                 adjustedVelocity = new Vector2(velocity.X, -500);
             ISprite sprite =
-                new SpriteMovingNonAnimated(Atlas, position, adjustedVelocity, adjustedAcceleration, 1, 1, 0);
+                new SpriteMovingNonAnimated(Atlas, position, adjustedVelocity, adjustedAcceleration, 2, 2, 1);
             AvatarBoundBox(sprite);
             return sprite;
         }
@@ -64,7 +64,7 @@ namespace UnnamedGame.Factories
         public ISprite CreateMoveLeftSprite(Vector2 position, Vector2 velocity)
         {
             var adjustedAcceleration = new Vector2(-1000, 0) + BaseAcceleration;
-            ISprite sprite = new SpriteMovingAnimated(Atlas, position, velocity, adjustedAcceleration, 1, 1, 0, 0);
+            ISprite sprite = new SpriteMovingAnimated(Atlas, position, velocity, adjustedAcceleration, 2, 2, 2, 3);
             AvatarBoundBox(sprite);
             return sprite;
         }
@@ -72,7 +72,7 @@ namespace UnnamedGame.Factories
         public ISprite CreateMoveRightSprite(Vector2 position, Vector2 velocity)
         {
             var adjustedAcceleration = new Vector2(1000, 0) + BaseAcceleration;
-            ISprite sprite = new SpriteMovingAnimated(Atlas, position, velocity, adjustedAcceleration, 1, 1, 0, 0);
+            ISprite sprite = new SpriteMovingAnimated(Atlas, position, velocity, adjustedAcceleration, 2, 2, 0, 1);
             AvatarBoundBox(sprite);
             return sprite;
         }
