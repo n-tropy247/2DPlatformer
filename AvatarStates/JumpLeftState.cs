@@ -22,6 +22,8 @@ namespace UnnamedGame.AvatarStates
 
         public override void JumpReleased() => _continueJump = false;
 
+        public override void Jump() => _continueJump = true;
+
         public override void MoveRight()
         {
             if (!_moveLeft)
