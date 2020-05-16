@@ -9,6 +9,10 @@ namespace UnnamedGame.Entities
         public BaseState State { get; set; }
         public bool OnGround { get; set; }
 
+        public delegate void AttackHandler();
+
+        public static event AttackHandler AttackOccurred;
+
         public AvatarEntity(Vector2 position) : base(position)
         {
             EntityType = CollisionDetector.EntityType.Avatar;
@@ -33,7 +37,11 @@ namespace UnnamedGame.Entities
                 State.Jump();
         }
 
-        public void Attack() => State.Attack();
+        public void Attack()
+        {
+            State.Attack();
+            AttackOccurred?.Invoke();
+        }
 
         public void JumpReleased() => State.JumpReleased();
 
