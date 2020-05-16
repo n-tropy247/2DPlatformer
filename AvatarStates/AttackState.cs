@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using UnnamedGame.Entities;
 
 namespace UnnamedGame.AvatarStates
@@ -19,7 +18,6 @@ namespace UnnamedGame.AvatarStates
         public override void Update(GameTime gameTime)
         {
             _time += gameTime.ElapsedGameTime.Milliseconds;
-            Console.WriteLine(_time);
             if (_time >= AttackTimeMillis)
             {
                 TransitionNextState();
