@@ -52,6 +52,7 @@ namespace UnnamedGame.World
         public void MoveRight() => Avatar.MoveRight();
         public void RightReleased() => Avatar.RightReleased();
         public void Jump() => Avatar.Jump();
+        public void Attack() => Avatar.Attack();
         public void JumpReleased() => Avatar.JumpReleased();
     }
 }

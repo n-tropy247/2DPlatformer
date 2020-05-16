@@ -23,15 +23,9 @@ namespace UnnamedGame.Entities
             base.Update(gameTime);
         }
 
-        public void MoveLeft()
-        {
-            State.MoveLeft();
-        }
+        public void MoveLeft() => State.MoveLeft();
 
-        public void MoveRight()
-        {
-            State.MoveRight();
-        }
+        public void MoveRight() => State.MoveRight();
 
         public void Jump()
         {
@@ -39,20 +33,13 @@ namespace UnnamedGame.Entities
                 State.Jump();
         }
 
-        public void JumpReleased()
-        {
-            State.JumpReleased();
-        }
+        public void Attack() => State.Attack();
 
-        public void LeftReleased()
-        {
-            State.LeftReleased();
-        }
+        public void JumpReleased() => State.JumpReleased();
 
-        public void RightReleased()
-        {
-            State.RightReleased();
-        }
+        public void LeftReleased() => State.LeftReleased();
+
+        public void RightReleased() => State.RightReleased();
 
         public override void HandleCollision(Collision.Collision collision, Game1 game)
         {

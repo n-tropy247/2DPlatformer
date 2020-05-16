@@ -26,6 +26,9 @@ namespace UnnamedGame.Controller
 
             var boundbox = new DrawBoundBoxCommand(game);
             BindCommand(boundbox, null, Keys.C);
+
+            var attack = new AttackCommand(game);
+            BindCommand(attack, null, Keys.F);
         }
 
         public void Update()

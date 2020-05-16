@@ -25,6 +25,10 @@ namespace UnnamedGame.AvatarStates
         {
         }
 
+        public virtual void Attack()
+        {
+        }
+
         public virtual void JumpReleased()
         {
         }
@@ -77,6 +81,9 @@ namespace UnnamedGame.AvatarStates
         protected void TransitionMoveRight() => Avatar.State = new MoveRightState(Avatar);
 
         protected void TransitionFaceLeft() => Avatar.State = new FaceLeftState(Avatar);
+
+        protected void TransitionAttackLeft(bool moving) => Avatar.State = new AttackLeftState(Avatar, moving);
+        protected void TransitionAttackRight(bool moving) => Avatar.State = new AttackRightState(Avatar, moving);
 
         public void TransitionFaceRight() => Avatar.State = new FaceRightState(Avatar);
     }

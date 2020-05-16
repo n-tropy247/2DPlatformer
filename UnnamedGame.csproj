@@ -41,6 +41,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AvatarStates\AttackLeftState.cs" />
+    <Compile Include="AvatarStates\AttackRightState.cs" />
+    <Compile Include="AvatarStates\AttackState.cs" />
     <Compile Include="AvatarStates\BaseState.cs" />
     <Compile Include="AvatarStates\FaceLeftState.cs" />
     <Compile Include="AvatarStates\JumpLeftState.cs" />
@@ -52,6 +55,7 @@
     <Compile Include="Controller\Commands\BaseCommand.cs" />
     <Compile Include="Controller\Commands\ICommand.cs" />
     <Compile Include="Controller\Commands\DrawBoundBoxCommand.cs" />
+    <Compile Include="Controller\Commands\AttackCommand.cs" />
     <Compile Include="Controller\Commands\QuitCommand.cs" />
     <Compile Include="Controller\Commands\ReleaseRightCommand.cs" />
     <Compile Include="Controller\Commands\ReleaseLeftCommand.cs" />
