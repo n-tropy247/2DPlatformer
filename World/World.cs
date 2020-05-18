@@ -24,7 +24,7 @@ namespace UnnamedGame.World
 
             _sprites = new List<ISprite>();
             _avatar = new AvatarEntity(new Vector2(10, 10));
-            var enemyTest = new EnemyEntity(new Vector2(0, 0));
+            var enemyTest = new EnemyEntity(new Vector2(800, 10), this);
             AddSprite(_avatar);
             AddSprite(enemyTest);
         }
@@ -43,6 +43,8 @@ namespace UnnamedGame.World
             CollisionDetector.ProcessCollisions(_sprites, gameTime, _game);
             _sprites.ForEach(sprite => sprite.Update(gameTime));
         }
+
+        public Vector2 GetAvatarPosition() => _avatar.Position;
 
         public static void ToggleDrawBoundBox() => DrawBoundBox = !DrawBoundBox;
 
