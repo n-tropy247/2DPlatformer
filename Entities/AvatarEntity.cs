@@ -9,7 +9,7 @@ namespace UnnamedGame.Entities
         public BaseState State { get; set; }
         public bool OnGround { get; set; }
 
-        public delegate void AttackHandler();
+        public delegate void AttackHandler(Vector2 avatarPos);
 
         public static event AttackHandler AttackOccurred;
 
@@ -39,11 +39,9 @@ namespace UnnamedGame.Entities
 
         public void Attack()
         {
-            if (!(State is AttackState))
-            {
-                State.Attack();
-                AttackOccurred?.Invoke();
-            }
+            if (State is AttackState) return;
+            State.Attack();
+            AttackOccurred?.Invoke(Position);
         }
 
         public void JumpReleased() => State.JumpReleased();
