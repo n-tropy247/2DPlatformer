@@ -23,16 +23,14 @@ namespace UnnamedGame.Factories
 
         public ISprite CreateStandardEnemySprite(Vector2 position, Vector2 velocity, Vector2 acceleration)
         {
-            var adjustedAcceleration = acceleration + BaseAcceleration;
-            ISprite sprite = new SpriteMovingNonAnimated(Atlas, position, velocity, adjustedAcceleration, SheetCols, SheetRows, 0);
+            ISprite sprite = new SpriteMovingNonAnimated(Atlas, position, velocity, BaseAcceleration, SheetCols, SheetRows, 0);
             EnemyBoundBox(sprite);
             return sprite;
         }
 
         public ISprite CreateDamagedEnemySprite(Vector2 position, Vector2 velocity, Vector2 acceleration)
         {
-            var adjustedAcceleration = acceleration + BaseAcceleration;
-            ISprite sprite = new SpriteMovingNonAnimated(Atlas, position, velocity, adjustedAcceleration, SheetCols, SheetRows, 1);
+            ISprite sprite = new SpriteMovingNonAnimated(Atlas, position, velocity, BaseAcceleration, SheetCols, SheetRows, 1);
             EnemyBoundBox(sprite);
             return sprite;
         }
