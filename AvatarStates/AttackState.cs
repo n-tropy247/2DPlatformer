@@ -41,11 +41,9 @@ namespace UnnamedGame.AvatarStates
                 MoveRightQueued = true;
         }
 
-        private void TransitionNextState()
+        protected virtual void TransitionNextState()
         {
-            if (!MoveLeftQueued && !MoveRightQueued)
-                TransitionFaceLeft();
-            else if (MoveLeftQueued)
+            if (MoveLeftQueued)
                 TransitionMoveLeft();
             else
                 TransitionMoveRight();

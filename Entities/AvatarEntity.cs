@@ -39,8 +39,11 @@ namespace UnnamedGame.Entities
 
         public void Attack()
         {
-            State.Attack();
-            AttackOccurred?.Invoke();
+            if (!(State is AttackState))
+            {
+                State.Attack();
+                AttackOccurred?.Invoke();
+            }
         }
 
         public void JumpReleased() => State.JumpReleased();
