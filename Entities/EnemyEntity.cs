@@ -10,6 +10,8 @@ namespace UnnamedGame.Entities
         public bool OnGround { get; set; }
         public World.World World { get; }
 
+        private const int AttackRange = 150; //number of pixels away avatar must be to cause damage
+
         public EnemyEntity(Vector2 position, World.World world) : base(position)
         {
             AvatarEntity.AttackOccurred += HandleAttack;
@@ -32,9 +34,10 @@ namespace UnnamedGame.Entities
             Sprite?.HandleCollision(collision, game);
         }
 
-        private void HandleAttack()
+        private void HandleAttack(Vector2 avatarPos)
         {
-            State.TakeDamage();
+            if (Vector2.Distance(avatarPos, Position) <= AttackRange)
+                State.TakeDamage();
         }
     }
 }
