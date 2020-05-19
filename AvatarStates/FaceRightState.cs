@@ -17,6 +17,8 @@ namespace UnnamedGame.AvatarStates
 
         public override void Jump() => TransitionJumpRight(false, true);
 
+        public override void Attack() => TransitionAttackRight(false);
+
         public override void MoveLeft() => TransitionMoveLeft();
 
         public override void MoveRight() => TransitionMoveRight();

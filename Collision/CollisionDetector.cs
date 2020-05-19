@@ -48,6 +48,7 @@ namespace UnnamedGame.Collision
         {
             Avatar,
             Default,
+            Enemy,
             Tile
         }
 

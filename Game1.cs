@@ -44,6 +44,7 @@ namespace UnnamedGame
             _controller = new GameController(this);
             TileFactory.Instance.LoadSheet(Content);
             AvatarFactory.Instance.LoadSheet(Content);
+            EnemyFactory.Instance.LoadSheet(Content);
             World = LevelParser.Parse(this, "./Content/level.json");
         }
 

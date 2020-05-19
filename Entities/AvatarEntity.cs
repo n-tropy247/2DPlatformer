@@ -9,6 +9,10 @@ namespace UnnamedGame.Entities
         public BaseState State { get; set; }
         public bool OnGround { get; set; }
 
+        public delegate void AttackHandler(Vector2 avatarPos);
+
+        public static event AttackHandler AttackOccurred;
+
         public AvatarEntity(Vector2 position) : base(position)
         {
             EntityType = CollisionDetector.EntityType.Avatar;
@@ -23,15 +27,9 @@ namespace UnnamedGame.Entities
             base.Update(gameTime);
         }
 
-        public void MoveLeft()
-        {
-            State.MoveLeft();
-        }
+        public void MoveLeft() => State.MoveLeft();
 
-        public void MoveRight()
-        {
-            State.MoveRight();
-        }
+        public void MoveRight() => State.MoveRight();
 
         public void Jump()
         {
@@ -39,20 +37,18 @@ namespace UnnamedGame.Entities
                 State.Jump();
         }
 
-        public void JumpReleased()
+        public void Attack()
         {
-            State.JumpReleased();
+            if (State is AttackState) return;
+            State.Attack();
+            AttackOccurred?.Invoke(Position);
         }
 
-        public void LeftReleased()
-        {
-            State.LeftReleased();
-        }
+        public void JumpReleased() => State.JumpReleased();
 
-        public void RightReleased()
-        {
-            State.RightReleased();
-        }
+        public void LeftReleased() => State.LeftReleased();
+
+        public void RightReleased() => State.RightReleased();
 
         public override void HandleCollision(Collision.Collision collision, Game1 game)
         {

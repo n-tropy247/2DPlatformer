@@ -13,6 +13,7 @@ namespace UnnamedGame.AvatarStates
             Avatar.Sprite = AvatarFactory.Instance.CreateMoveLeftSprite(Avatar.Position, Avatar.Velocity);
 
         public override void Jump() => TransitionJumpLeft(true, true);
+        public override void Attack() => TransitionAttackLeft(true);
 
         public override void LeftReleased()
         {

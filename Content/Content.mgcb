@@ -25,7 +25,7 @@
 /processorParam:TextureFormat=Color
 /build:avatar.png
 
-#begin avatar2.png
+#begin enemy.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,7 +35,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:avatar2.png
+/build:enemy.png
 
 #begin level.json
 /copy:level.json
