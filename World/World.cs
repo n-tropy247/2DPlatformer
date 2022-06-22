@@ -13,7 +13,7 @@ namespace UnnamedGame.World
 
         public const int Gravity = 1000;
 
-        private AvatarEntity Avatar { get; }
+        private readonly AvatarEntity _avatar;
 
         private readonly Game1 _game;
         private readonly List<ISprite> _sprites;
@@ -23,8 +23,10 @@ namespace UnnamedGame.World
             _game = gameInit;
 
             _sprites = new List<ISprite>();
-            Avatar = new AvatarEntity(new Vector2(10, 10));
-            AddSprite(Avatar);
+            _avatar = new AvatarEntity(new Vector2(10, 10));
+            var enemyTest = new EnemyEntity(new Vector2(800, 10), this);
+            AddSprite(_avatar);
+            AddSprite(enemyTest);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -42,16 +44,19 @@ namespace UnnamedGame.World
             _sprites.ForEach(sprite => sprite.Update(gameTime));
         }
 
+        public Vector2 GetAvatarPosition() => _avatar.Position;
+
         public static void ToggleDrawBoundBox() => DrawBoundBox = !DrawBoundBox;
 
         public void AddSprite(ISprite sprite) => _sprites.Add(sprite);
         public void RemoveSprite(ISprite sprite) => _sprites.Remove(sprite);
 
-        public void MoveLeft() => Avatar.MoveLeft();
-        public void LeftReleased() => Avatar.LeftReleased();
-        public void MoveRight() => Avatar.MoveRight();
-        public void RightReleased() => Avatar.RightReleased();
-        public void Jump() => Avatar.Jump();
-        public void JumpReleased() => Avatar.JumpReleased();
+        public void MoveLeft() => _avatar.MoveLeft();
+        public void LeftReleased() => _avatar.LeftReleased();
+        public void MoveRight() => _avatar.MoveRight();
+        public void RightReleased() => _avatar.RightReleased();
+        public void Jump() => _avatar.Jump();
+        public void Attack() => _avatar.Attack();
+        public void JumpReleased() => _avatar.JumpReleased();
     }
 }
